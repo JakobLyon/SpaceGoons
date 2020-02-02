@@ -1,9 +1,9 @@
-import SystemCollection from "./SystemCollection";
-import Range from "./Range";
+import SystemCollection from "./SystemCluster";
+import Range from "./NumberRange";
 import tough from "tough-name-generator";
 import System from "./System";
 
-export class Galaxy {
+export default class Galaxy {
   name: string;
   startingSystem: System = null;
   size: number;
@@ -13,7 +13,7 @@ export class Galaxy {
     this.size = size;
   }
 
-  getFirstCluster(): SystemCollection {
+  private getFirstCluster(): SystemCollection {
     return this.clusters[0];
   }
 

@@ -1,3 +1,4 @@
+// TODO: add comments and types
 export class Player {
   constructor(name = null, supplies = 10) {
     this.name = name;
