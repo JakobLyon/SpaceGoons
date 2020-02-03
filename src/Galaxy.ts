@@ -1,19 +1,25 @@
-import SystemCollection from "./SystemCluster";
+import SystemCluster from "./SystemCluster";
 import Range from "./NumberRange";
-import tough from "tough-name-generator";
+import { Chance } from "chance";
 import System from "./System";
 
 export default class Galaxy {
   name: string;
   startingSystem: System = null;
   size: number;
-  clusters: Array<SystemCollection> = [];
-  constructor(name: string = null, size: number = 10) {
-    this.name = name ? name : tough.get();
+  clusters: Array<SystemCluster> = [];
+  generator: Chance.Chance;
+  constructor(
+    name: string = null,
+    size: number = 10,
+    generator: Chance.Chance = new Chance()
+  ) {
+    this.generator = generator;
+    this.name = name ? name : this.generator.name();
     this.size = size;
   }
 
-  private getFirstCluster(): SystemCollection {
+  private getFirstCluster(): SystemCluster {
     return this.clusters[0];
   }
 
@@ -31,7 +37,7 @@ export default class Galaxy {
 
     // determine ranges based on difficulty -- implement difficulty later
     let minSystems, maxSystems, minWidth, maxWidth;
-    switch(difficulty) {
+    switch (difficulty) {
       case 1:
         minSystems = medium[0];
         maxSystems = medium[1];
@@ -44,32 +50,35 @@ export default class Galaxy {
         maxSystems = easy[1];
         break;
     }
-    
+
     // TODO: width correlated with difficulty
     const layerWidthRange = new Range(4, 6);
     // TODO: distance correlated with difficulty
     const distanceToParentRange = new Range(1, 9);
-    
+
     const END_CLUSTER_SIZE = 1;
     const BEGIN_CLUSTER_SIZE = 1;
 
     let newCluster;
     // Add end cluster
-    this.clusters.push(new SystemCollection(END_CLUSTER_SIZE));
-    
+    this.clusters.push(new SystemCluster(END_CLUSTER_SIZE, this.generator));
+
     // create rest of galaxy
     // hard coded, implement difficulty settings later
     const numOfLayers = new Range(10, 15).getRandomInRange();
     for (var i = 0; i < numOfLayers; i++) {
       // create galaxy layer (systemcol)
-      let newCluster = new SystemCollection(layerWidthRange.getRandomInRange());
+      let newCluster = new SystemCluster(
+        layerWidthRange.getRandomInRange(),
+        this.generator
+      );
       // link layer to previous
       newCluster.linkSystems(this.getFirstCluster());
       this.clusters.unshift(newCluster);
     }
 
     // create start cluster
-    const startCluster = new SystemCollection(BEGIN_CLUSTER_SIZE);
+    const startCluster = new SystemCluster(BEGIN_CLUSTER_SIZE, this.generator);
     startCluster.linkSystems(this.getFirstCluster(), true);
     this.startingSystem = startCluster.systems[0];
     this.size = this.clusters.length;

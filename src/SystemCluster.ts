@@ -1,21 +1,24 @@
 import Range from "./NumberRange";
 import System from "./System";
+import { Chance } from "chance";
 
 export default class SystemCluster {
   systems: Array<System> = [];
+  generator: Chance.Chance;
 
   /*
     size - number: how many systems to initialize
   */
-  constructor(size: number = 0) {
+  constructor(size: number = 0, generator: Chance.Chance = new Chance()) {
+    this.generator = generator;
     for (var i = 0; i < size; i++) {
-      this.systems.push(new System());
+      this.systems.push(new System(null, undefined, undefined, this.generator));
     }
   }
 
   /**
    * Link the given Cluster as the next node to the current Cluster
-   * 
+   *
    * Params:
    *        nextCluster -  SystemCluster: collection of systems that come after current cluster
    *        linkAllPaths - bool:             a flag determining whether to link all systems or to link n systems to n - 1 systems
