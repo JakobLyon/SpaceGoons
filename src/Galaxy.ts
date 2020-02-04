@@ -6,6 +6,7 @@ import System from "./System";
 export default class Galaxy {
   name: string;
   startingSystem: System = null;
+  destinationSystem: System = null;
   size: number;
   clusters: Array<SystemCluster> = [];
   generator: Chance.Chance;
@@ -60,8 +61,10 @@ export default class Galaxy {
     const BEGIN_CLUSTER_SIZE = 1;
 
     let newCluster;
+
     // Add end cluster
     this.clusters.push(new SystemCluster(END_CLUSTER_SIZE, this.generator));
+    this.destinationSystem = this.getFirstCluster().systems[0];
 
     // create rest of galaxy
     // hard coded, implement difficulty settings later

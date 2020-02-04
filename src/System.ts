@@ -14,4 +14,12 @@ export default class System {
     this.pathways = pathways;
     this.distanceToParent = distanceToParent;
   }
+
+  travelOptions = (): string => {
+    let options = "";
+    this.pathways.forEach((system, index) => {
+      options = `${index}: ${system.name}, ${system.distanceToParent}, Chance of Risk: ${system.riskChance}, Chance of Reward: ${system.rewardChance}`;
+    });
+    return "";
+  }
 }
