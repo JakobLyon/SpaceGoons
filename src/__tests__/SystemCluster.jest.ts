@@ -20,11 +20,11 @@ describe("System Collection Class tests", () => {
     const testCluster2 = new SystemCluster(10);
 
     testCluster1.systems.forEach(system => {
-      expect(system.pathways.length).toBe(0);
+      expect(system.routes.length).toBe(0);
     })
     testCluster1.linkSystems(testCluster2);
     testCluster1.systems.forEach(system => {
-      expect(system.pathways.length).not.toBe(0);
+      expect(system.routes.length).not.toBe(0);
     })
   })
 });

@@ -11,7 +11,6 @@ export default class Galaxy {
   clusters: Array<SystemCluster> = [];
   generator: Chance.Chance;
   constructor(
-    name: string = null,
     size: number = 10,
     generator: Chance.Chance = new Chance()
   ) {
@@ -82,7 +81,7 @@ export default class Galaxy {
 
     // create start cluster
     const startCluster = new SystemCluster(BEGIN_CLUSTER_SIZE, this.generator);
-    startCluster.linkSystems(this.getFirstCluster(), true);
+    startCluster.linkSystems(this.getFirstCluster());
     this.startingSystem = startCluster.systems[0];
     this.size = this.clusters.length;
   }

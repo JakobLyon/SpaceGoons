@@ -1,6 +1,12 @@
 import Range from "./NumberRange";
 import System from "./System";
 import { Chance } from "chance";
+import { SystemRoute } from "./SystemRoute";
+import {
+  TRAVEL_DISTANCE_RANGE_MIN,
+  TRAVEL_DISTANCE_RANGE_MAX
+} from "./constants";
+import { intToDistanceType } from "./enums/DistanceTypeEnum";
 
 export default class SystemCluster {
   systems: Array<System> = [];
@@ -12,7 +18,7 @@ export default class SystemCluster {
   constructor(size: number = 0, generator: Chance.Chance = new Chance()) {
     this.generator = generator;
     for (var i = 0; i < size; i++) {
-      this.systems.push(new System(null, undefined, undefined, this.generator));
+      this.systems.push(new System(this.generator));
     }
   }
 
@@ -25,16 +31,9 @@ export default class SystemCluster {
    *
    * Return - null
    */
-  linkSystems(nextCluster: SystemCluster, linkAllPaths: boolean = false) {
-    const distanceRange = new Range(1, 9);
+  linkSystems(nextCluster: SystemCluster) {
     this.systems.forEach(system => {
-      const nextSystemsToLink = linkAllPaths
-        ? this.systems
-        : nextCluster.getSystemsToLink();
-      system.pathways = [...nextSystemsToLink];
-      nextSystemsToLink.forEach(nextSystem => {
-        nextSystem.distanceToParent = distanceRange.getRandomInRange();
-      });
+      system.routes = nextCluster.getSystemsToLink();
     });
   }
 
@@ -42,9 +41,21 @@ export default class SystemCluster {
    * Params - null
    * Return - Array<System>: a Cluster of Star Systems
    */
-  private getSystemsToLink(): Array<System> {
-    const range = new Range(0, this.systems.length - 1);
-    const indexToNotInclude = range.getRandomInRange();
-    return [...this.systems].splice(indexToNotInclude, 1);
+  private getSystemsToLink(): Array<SystemRoute> {
+    const indexToNotInclude: number = this.generator.integer({
+      min: 0,
+      max: this.systems.length - 1
+    });
+    return [...this.systems].splice(indexToNotInclude, 1).map(system => {
+      const distance = this.generator.integer({
+        min: TRAVEL_DISTANCE_RANGE_MIN,
+        max: TRAVEL_DISTANCE_RANGE_MAX
+      });
+      return {
+        destination: system,
+        distanceType: intToDistanceType(distance),
+        distance
+      };
+    });
   }
 }

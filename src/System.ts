@@ -1,25 +1,24 @@
 import { Chance } from "chance";
+import { SystemRoute } from "./SystemRoute";
+import { getRiskRewardChance } from "./RiskReward";
 
 export default class System {
-  name?: string;
-  pathways: Array<System>;
+  name: string;
+  routes: Array<SystemRoute>;
   distanceToParent: number;
-  constructor(
-    name: string = null,
-    pathways: Array<System> = [],
-    distanceToParent: number = 0,
-    generator: Chance.Chance = new Chance()
-  ) {
+  constructor(generator: Chance.Chance = new Chance()) {
     this.name = name ? name : generator.name();
-    this.pathways = pathways;
-    this.distanceToParent = distanceToParent;
+    this.routes = [];
   }
 
   travelOptions = (): string => {
-    let options = "";
-    this.pathways.forEach((system, index) => {
-      options = `${index}: ${system.name}, ${system.distanceToParent}, Chance of Risk: ${system.riskChance}, Chance of Reward: ${system.rewardChance}`;
-    });
-    return "";
-  }
+    return this.routes
+      .map((systemRoute, index) => {
+        const { riskChance, rewardChance } = getRiskRewardChance(
+          systemRoute.distanceType
+        );
+        return `${index}: ${systemRoute.destination.name}, ${systemRoute.distance}, Chance of Risk: ${riskChance}, Chance of Reward: ${rewardChance}`;
+      })
+      .join("\n");
+  };
 }
