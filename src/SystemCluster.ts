@@ -42,22 +42,27 @@ export default class SystemCluster {
    * Return - Array<System>: a Cluster of Star Systems
    */
   private getSystemsToLink(): Array<SystemRoute> {
+    if (this.systems.length < 2) {
+      return this.systems.map(system => this.createSystemRoute(system));
+    }
     const indexToNotInclude: number = this.generator.integer({
       min: 0,
       max: this.systems.length - 1
     });
     const systems = [...this.systems];
     systems.splice(indexToNotInclude, 1);
-    return systems.map(system => {
-      const distance = this.generator.integer({
-        min: TRAVEL_DISTANCE_RANGE_MIN,
-        max: TRAVEL_DISTANCE_RANGE_MAX
-      });
-      return {
-        destination: system,
-        distanceType: intToDistanceType(distance),
-        distance
-      };
+    return systems.map(system => this.createSystemRoute(system));
+  }
+
+  createSystemRoute(system: System): SystemRoute {
+    const distance = this.generator.integer({
+      min: TRAVEL_DISTANCE_RANGE_MIN,
+      max: TRAVEL_DISTANCE_RANGE_MAX
     });
+    return {
+      destination: system,
+      distanceType: intToDistanceType(distance),
+      distance
+    };
   }
 }

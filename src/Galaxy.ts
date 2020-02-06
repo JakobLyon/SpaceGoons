@@ -11,12 +11,10 @@ export default class Galaxy {
   clusters: Array<SystemCluster> = [];
   generator: Chance.Chance;
   constructor(
-    size: number = 10,
     generator: Chance.Chance = new Chance()
   ) {
     this.generator = generator;
     this.name = this.generator.name();
-    this.size = size;
   }
 
   private getFirstCluster(): SystemCluster {
@@ -30,31 +28,9 @@ export default class Galaxy {
 
     creates a network of systems
   */
-  generateGalaxy(difficulty: number = 0) {
-    const easy = [7, 10];
-    const medium = [10, 15];
-    const hard = [15, 20];
-
-    // determine ranges based on difficulty -- implement difficulty later
-    let minSystems, maxSystems, minWidth, maxWidth;
-    switch (difficulty) {
-      case 1:
-        minSystems = medium[0];
-        maxSystems = medium[1];
-      case 2:
-        minSystems = hard[0];
-        maxSystems = hard[1];
-        break;
-      default:
-        minSystems = easy[0];
-        maxSystems = easy[1];
-        break;
-    }
-
+  generateGalaxy() {
     // TODO: width correlated with difficulty
     const layerWidthRange = new Range(4, 6);
-    // TODO: distance correlated with difficulty
-    const distanceToParentRange = new Range(1, 9);
 
     const END_CLUSTER_SIZE = 1;
     const BEGIN_CLUSTER_SIZE = 1;
@@ -67,10 +43,10 @@ export default class Galaxy {
 
     // create rest of galaxy
     // hard coded, implement difficulty settings later
-    const numOfLayers = new Range(10, 15).getRandomInRange();
-    for (var i = 0; i < numOfLayers; i++) {
+    const numOfClusters = 10;
+    for (var i = 0; i < numOfClusters; i++) {
       // create galaxy layer (systemcol)
-      let newCluster = new SystemCluster(
+      newCluster = new SystemCluster(
         layerWidthRange.getRandomInRange(),
         this.generator
       );

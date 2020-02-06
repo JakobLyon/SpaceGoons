@@ -36,7 +36,7 @@ export const travelRoute = (
 
   if (riskOrReward < rewardChance) {
     return calculateReward(outcome, generator);
-  } else if (rewardChance < riskOrReward && riskOrReward < riskChance) {
+  } else if (riskOrReward < riskChance + rewardChance) {
     return calculateRisk(outcome, route.distance, generator);
   } else {
     return {
@@ -58,7 +58,7 @@ function calculateReward(
       max: LOW_REWARD_SUPPLIES_CONSUMED_MAX
     });
     return {
-      message: getLowRewardsMessage(suppliesConsumed),
+      message: getLowRewardsMessage(Math.abs(suppliesConsumed)),
       suppliesConsumed,
       travelSuccessful: true
     };
@@ -68,7 +68,7 @@ function calculateReward(
       max: MEDIUM_REWARD_SUPPLIES_CONSUMED_MAX
     });
     return {
-      message: getMediumRewardsMessage(suppliesConsumed),
+      message: getMediumRewardsMessage(Math.abs(suppliesConsumed)),
       suppliesConsumed,
       travelSuccessful: true
     };
@@ -78,7 +78,7 @@ function calculateReward(
       max: HIGH_REWARD_SUPPLIES_CONSUMED_MAX
     });
     return {
-      message: getHighRewardsMessage(suppliesConsumed),
+      message: getHighRewardsMessage(Math.abs(suppliesConsumed)),
       suppliesConsumed,
       travelSuccessful: true
     };
@@ -124,6 +124,12 @@ function calculateRisk(
     });
     return {
       message: getHighRiskMessage(suppliesConsumed),
+      suppliesConsumed: suppliesConsumed,
+      travelSuccessful: true
+    };
+  } else {
+    return {
+      message: getHighRiskMessage(distance),
       suppliesConsumed: distance,
       travelSuccessful: false
     };

@@ -1,8 +1,6 @@
 export default class Player {
-  name: string;
   supplies: number;
-  constructor(name: string = null, supplies: number = 10) {
-    this.name = name;
+  constructor(supplies: number = 10) {
     this.supplies = supplies;
   }
 

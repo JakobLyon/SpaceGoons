@@ -4,5 +4,6 @@
       "node": "12.14"
     }
   }]],
-  "plugins": ["@babel/plugin-proposal-class-properties"]
+  "plugins": ["@babel/plugin-proposal-class-properties"],
+  "sourceMaps": true
 }
