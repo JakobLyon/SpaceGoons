@@ -79,7 +79,7 @@ export const GameEngine = async () => {
     const playerChoice = await queryForTravelPlan(
       `You are in System ${
         currentSystem.name
-      } and your options are as follows: \n${currentSystem.travelOptions()}\nYou have ${newPlayer.getSuppliesCount()} supplies left.\n`,
+      } and your options are as follows: \n${currentSystem.travelOptions()}\nYou have ${newPlayer.supplies} supplies left.\n`,
       currentSystem.routes.map((route, index) => index)
     );
 
@@ -90,7 +90,7 @@ export const GameEngine = async () => {
 
     newPlayer.travel(travelResult.suppliesConsumed);
     console.log(`${travelResult.message}\n`);
-    if (newPlayer.getSuppliesCount() <= 0) {
+    if (newPlayer.supplies <= 0 || newPlayer.distanceTraveled > 55) {
       gameEnd = true;
       continue;
     }
