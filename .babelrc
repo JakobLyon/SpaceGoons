@@ -1,4 +1,8 @@
 {
-  "presets": ["@babel/preset-flow", "@babel/preset-typescript"],
+  "presets": ["@babel/preset-flow", "@babel/preset-typescript", ["env", {
+    "targets": {
+      "node": "12.14"
+    }
+  }]],
   "plugins": ["@babel/plugin-proposal-class-properties"]
 }

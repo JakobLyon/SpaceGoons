@@ -46,7 +46,9 @@ export default class SystemCluster {
       min: 0,
       max: this.systems.length - 1
     });
-    return [...this.systems].splice(indexToNotInclude, 1).map(system => {
+    const systems = [...this.systems];
+    systems.splice(indexToNotInclude, 1);
+    return systems.map(system => {
       const distance = this.generator.integer({
         min: TRAVEL_DISTANCE_RANGE_MIN,
         max: TRAVEL_DISTANCE_RANGE_MAX

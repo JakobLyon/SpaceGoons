@@ -15,7 +15,7 @@ export default class Galaxy {
     generator: Chance.Chance = new Chance()
   ) {
     this.generator = generator;
-    this.name = name ? name : this.generator.name();
+    this.name = this.generator.name();
     this.size = size;
   }
 
@@ -82,6 +82,7 @@ export default class Galaxy {
     // create start cluster
     const startCluster = new SystemCluster(BEGIN_CLUSTER_SIZE, this.generator);
     startCluster.linkSystems(this.getFirstCluster());
+    this.clusters.unshift(startCluster);
     this.startingSystem = startCluster.systems[0];
     this.size = this.clusters.length;
   }

@@ -7,7 +7,7 @@ export default class System {
   routes: Array<SystemRoute>;
   distanceToParent: number;
   constructor(generator: Chance.Chance = new Chance()) {
-    this.name = name ? name : generator.name();
+    this.name = generator.name();
     this.routes = [];
   }
 
@@ -17,7 +17,13 @@ export default class System {
         const { riskChance, rewardChance } = getRiskRewardChance(
           systemRoute.distanceType
         );
-        return `${index}: ${systemRoute.destination.name}, ${systemRoute.distance}, Chance of Risk: ${riskChance}, Chance of Reward: ${rewardChance}`;
+        return `${index}: ${systemRoute.destination.name}, ${
+          systemRoute.distance
+        } Lightyears, Chance of Risk: ${riskChance.toLocaleString("en", {
+          style: "percent"
+        })}, Chance of Reward: ${rewardChance.toLocaleString("en", {
+          style: "percent"
+        })}`;
       })
       .join("\n");
   };
