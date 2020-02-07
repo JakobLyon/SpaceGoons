@@ -4,11 +4,16 @@ import { Chance } from "chance";
 import Player from "./Player";
 import { travelRoute } from "./TravelRoute";
 import { TravelResult } from "./interfaces/TravelResult";
-import { winGameMessage, loseGameMessage } from "./constants";
+import {
+  winGameMessage,
+  loseGameNoSuppliesMessage,
+  loseGameTooLongMessage
+} from "./constants";
+import { GameEndCondition } from "./enums/GameEndCondition";
 
 /**
  * Ask user query and return their input
- * 
+ *
  * @param query Text to print to stdout
  */
 const askQuestion = (query: string): Promise<string> => {
@@ -27,7 +32,7 @@ const askQuestion = (query: string): Promise<string> => {
 
 /**
  * Query the CLI for input, check it against a list of approved values. Repeat if input does not pass inspection
- * 
+ *
  * @param query   Text to print to console
  * @param options List to check user input against
  */
@@ -73,13 +78,18 @@ export const GameEngine = async () => {
     } supplies and it will take ${newGalaxy.size - 1} jumps to reach home.\n`
   );
 
-  let gameEnd: boolean = false;
-  let winCondition: boolean = false;
+  console.log(
+    `You will be presented a series of options and you must decide which path to take in order to reach home. Enter the number option presented and hit enter to choose. You will lose if your ship runs out of supplies or you take longer than 45 Li  ghtyears to reach home. Risk and Reward is mutually exclusive, you will get one or the other. Typically, risk involves losing resources or time, and reward involves being given supplies.\n`
+  );
+
+  let gameEnd: GameEndCondition = null;
   while (!gameEnd) {
     const playerChoice = await queryForTravelPlan(
       `You are in System ${
         currentSystem.name
-      } and your options are as follows: \n${currentSystem.travelOptions()}\nYou have ${newPlayer.supplies} supplies left.\n`,
+      } and your options are as follows: \n${currentSystem.travelOptions()}\nYou have ${
+        newPlayer.supplies
+      } supplies left.\n`,
       currentSystem.routes.map((route, index) => index)
     );
 
@@ -90,9 +100,11 @@ export const GameEngine = async () => {
 
     newPlayer.travel(travelResult.suppliesConsumed);
     console.log(`${travelResult.message}\n`);
-    if (newPlayer.supplies <= 0 || newPlayer.distanceTraveled > 55) {
-      gameEnd = true;
+    if (newPlayer.supplies <= 0) {
+      gameEnd = GameEndCondition.OutOfSupplies;
       continue;
+    } else if (newPlayer.distanceTraveled > 45) {
+      gameEnd = GameEndCondition.TooManyLightyears;
     }
 
     if (
@@ -100,16 +112,20 @@ export const GameEngine = async () => {
       currentSystem.routes[playerChoice].destination ===
         newGalaxy.destinationSystem
     ) {
-      gameEnd = true;
-      winCondition = true;
+      gameEnd = GameEndCondition.Victory;
     } else if (travelResult.travelSuccessful) {
       currentSystem = currentSystem.routes[playerChoice].destination;
     }
   }
 
-  if (winCondition) {
-    console.log(winGameMessage);
-  } else {
-    console.log(loseGameMessage);
+  switch (gameEnd) {
+    case GameEndCondition.OutOfSupplies:
+      console.log(loseGameNoSuppliesMessage);
+      break;
+    case GameEndCondition.TooManyLightyears:
+      console.log(loseGameTooLongMessage);
+      break;
+    default:
+      console.log(winGameMessage);
   }
 };
