@@ -28,7 +28,7 @@ export default class Galaxy {
 
     creates a network of systems
   */
-  generateGalaxy() {
+  generateGalaxy(numOfClusters: number = 10) {
     // TODO: width correlated with difficulty
     const layerWidthRange = new Range(4, 6);
 
@@ -42,8 +42,6 @@ export default class Galaxy {
     this.destinationSystem = this.getFirstCluster().systems[0];
 
     // create rest of galaxy
-    // hard coded, implement difficulty settings later
-    const numOfClusters = 10;
     for (var i = 0; i < numOfClusters; i++) {
       // create galaxy layer (systemcol)
       newCluster = new SystemCluster(

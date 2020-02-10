@@ -1,13 +1,13 @@
 export default class Player {
   supplies: number;
   distanceTraveled: number;
-  constructor(supplies: number = 10, distanceTraveled: number = 45) {
+  constructor(supplies: number = 10, distanceTraveled: number = 0) {
     this.supplies = supplies;
-    this.distanceTraveled = this.distanceTraveled;
+    this.distanceTraveled = distanceTraveled;
   }
 
-  travel(distance = 0) {
-    this.supplies -= distance;
+  travel(supplies: number = 0, distance: number = 0) {
+    this.supplies -= supplies;
     this.distanceTraveled += distance;
   }
 }
