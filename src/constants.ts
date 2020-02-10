@@ -52,3 +52,5 @@ export const loseGameNoSuppliesMessage =
   "You've run out of supplies and your ship is floating aimlessly into the void. DEFEAT!";
 export const loseGameTooLongMessage =
   "You've taken too long to reach home and your people have forgotten you. DEFEAT!";
+
+export const CALC_SHORTEST_COST = 1;
