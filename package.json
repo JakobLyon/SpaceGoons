@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "build": "babel src/ -d lib/ --extensions \".ts,.tsx\"",
-    "prepublish": "npm run build"
+    "start": "node ./lib/start.js"
   },
   "repository": {
     "type": "git",
@@ -36,5 +36,8 @@
     "jest": "^25.1.0",
     "ts-jest": "^25.1.0",
     "@types/chance": "^1.0.8"
+  },
+  "bin": {
+    "spacegoons": "./lib/start.js"
   }
 }
