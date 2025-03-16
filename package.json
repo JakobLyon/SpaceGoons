@@ -19,7 +19,8 @@
   },
   "homepage": "https://github.com/JakobLyon/SpaceGoons#readme",
   "dependencies": {
-    "chance": "^1.1.12"
+    "chance": "^1.1.12",
+    "typescript": "^5.8.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.26.4",
