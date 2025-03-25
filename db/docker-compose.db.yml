@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydb
+    volumes:
+      - ./db-init:/docker-entrypoint-initdb.d
+    networks:
+      - app_network
+
+volumes:
+  pg_data:

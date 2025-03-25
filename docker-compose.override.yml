@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  backend:
+    build:
+      context: ./backend
+    environment:
+      DEBUG: "true"
+  db:
+    environment:
+      POSTGRES_DB: testdb # Override default database

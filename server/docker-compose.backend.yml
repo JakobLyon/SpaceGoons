@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  backend:
+    build: .
+    environment:
+      DATABASE_URL: postgres://myuser:mypassword@db:5432/mydb
+    networks:
+      - app_network
+    depends_on:
+      - db
