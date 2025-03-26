@@ -1,13 +1,12 @@
-version: '3.8'
 services:
-  backend:
+  server:
     extends:
-      file: backend/docker-compose.backend.yml
-      service: backend
+      file: server/docker-compose.server.yml
+      service: server
 
   db:
     extends:
-      file: database/docker-compose.db.yml
+      file: db/docker-compose.db.yml
       service: db
 
 networks:
