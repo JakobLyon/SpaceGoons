@@ -13,7 +13,7 @@ function App() {
     if (hasRun.current) return;
     hasRun.current = true;
     const term = new Terminal();
-    term.open(document.getElementById("terminal"));
+    term.open(document.getElementById("terminal")!);
     
     term.write("Welcome to the game!\r\n> ");
   }, [])
