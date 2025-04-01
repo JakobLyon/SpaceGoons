@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/JakobLyon/SpaceGoons#readme",
   "dependencies": {
+    "@types/node": "^22.13.17",
     "chance": "^1.1.12",
     "express": "^4.21.2",
     "firebase-admin": "^13.2.0",
