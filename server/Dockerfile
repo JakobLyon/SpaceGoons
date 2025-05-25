@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 3000 
 
 # Define the command to start your app
-CMD ["npm", "start"]  # Modify based on your app's start command
+CMD yarn start  # Modify based on your app's start command

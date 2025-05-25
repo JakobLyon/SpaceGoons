@@ -1,4 +1,4 @@
 lib/
 node_modules
 /dist
-/serviceAccountKey.json
+serviceAccountKey.json
