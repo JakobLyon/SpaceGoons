@@ -19,7 +19,10 @@ function App() {
   }, [])
 
   return (
-    <div id="terminal"/>
+    <div>
+      <button onClick={() => {}}>giga</button>
+      <div id="terminal"/>
+    </div>
   )
 }
 
