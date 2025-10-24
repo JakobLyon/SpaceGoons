@@ -4,7 +4,7 @@ import {
   winGameMessage,
   loseGameNoSuppliesMessage,
   loseGameTooLongMessage,
-  CALC_SHORTEST_COST
+  CALC_SHORTEST_COST,
 } from "./constants";
 import { GameEndCondition } from "./enums/GameEndCondition";
 import { askQuestion } from "./AskQuestion";
@@ -26,16 +26,17 @@ export const GameEngine = async () => {
         currentSystem.name
       } and your options are as follows: \n${currentSystem.travelOptions()}\nshortest: Pay 1 supply to calculate the immediate route leading to the shortest path.\nYou have ${
         newPlayer.supplies
-      } supplies left and must arrive in ${45 -
-        newPlayer.distanceTraveled} Lightyears.`}\n`
+      } supplies left and must arrive in ${
+        45 - newPlayer.distanceTraveled
+      } Lightyears.`}\n`,
     );
     if (answer === "shortest") {
       const { nextStop } = calculateShortest(
         currentSystem,
-        newGalaxy.destinationSystem
+        newGalaxy.destinationSystem,
       );
       console.log(
-        `Your ship computer calculates which jump would bring you along the shortest path. Some time passes, burning through ${CALC_SHORTEST_COST} supply. Your ship determines ${nextStop.name} is the shortest route.\n`
+        `Your ship computer calculates which jump would bring you along the shortest path. Some time passes, burning through ${CALC_SHORTEST_COST} supply. Your ship determines ${nextStop.name} is the shortest route.\n`,
       );
       newPlayer.supplies -= CALC_SHORTEST_COST;
     } else if (
@@ -54,7 +55,7 @@ export const GameEngine = async () => {
 
       newPlayer.travel(
         travelResult.suppliesConsumed,
-        currentSystem.routes[playerChoice].distance
+        currentSystem.routes[playerChoice].distance,
       );
       console.log(`${travelResult.message}\n`);
 

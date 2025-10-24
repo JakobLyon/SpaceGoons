@@ -19,7 +19,7 @@ export default class NumberRange {
     min: number = 0,
     max: number = 1,
     seed: string = null,
-    generator: Object = null
+    generator: Object = null,
   ) {
     this.min = min;
     this.max = max;
@@ -30,7 +30,7 @@ export default class NumberRange {
   /**
    * Params - none
    * Return - Number
-   * 
+   *
    * Returns a random number in the previously provided range
    */
   getRandomInRange(): number {

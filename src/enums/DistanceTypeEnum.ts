@@ -1,7 +1,7 @@
 export enum DistanceType {
   Short,
   Medium,
-  Long
+  Long,
 }
 
 export const intToDistanceType = (number: number): DistanceType => {
@@ -17,4 +17,4 @@ export const intToDistanceType = (number: number): DistanceType => {
     default:
       return DistanceType.Long;
   }
-}
+};

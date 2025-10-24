@@ -10,9 +10,7 @@ export default class Galaxy {
   size: number;
   clusters: Array<SystemCluster> = [];
   generator: Chance.Chance;
-  constructor(
-    generator: Chance.Chance = new Chance()
-  ) {
+  constructor(generator: Chance.Chance = new Chance()) {
     this.generator = generator;
     this.name = this.generator.name();
   }
@@ -46,7 +44,7 @@ export default class Galaxy {
       // create galaxy layer (systemcol)
       newCluster = new SystemCluster(
         layerWidthRange.getRandomInRange(),
-        this.generator
+        this.generator,
       );
       // link layer to previous
       newCluster.linkSystems(this.getFirstCluster());

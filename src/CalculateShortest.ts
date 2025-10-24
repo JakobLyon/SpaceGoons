@@ -1,6 +1,9 @@
 import System from "./System";
 
-const lowestCostNode = (costs, processed) => {
+const lowestCostNode = (
+  costs: { [x: string]: number },
+  processed: string | any[],
+): Number => {
   return Object.keys(costs).reduce((lowest, node) => {
     if (lowest === null || costs[node] < costs[lowest]) {
       if (!processed.includes(node)) {
@@ -8,17 +11,17 @@ const lowestCostNode = (costs, processed) => {
       }
     }
     return lowest;
-  }, null);
+  }, 0);
 };
 
-const dijkstra = graph => {
+const dijkstra = (graph: { [x: string]: any; start: any }) => {
   const costs = Object.assign({ finish: Infinity }, graph.start);
   const parents = { finish: null };
   for (let child in graph.start) {
     // add children of start node
     parents[child] = "start";
   }
-  const processed = [];
+  const processed: never[] = [];
 
   let node = lowestCostNode(costs, processed);
   while (node) {
@@ -49,7 +52,7 @@ const dijkstra = graph => {
   optimalPath.reverse(); // reverse array to get correct order
   const results = {
     distance: costs.finish,
-    path: optimalPath
+    path: optimalPath,
   };
   return results;
 };
@@ -63,7 +66,7 @@ const dijkstra = graph => {
  */
 export const calculateShortest = (
   system: System,
-  destination: System
+  destination: System,
 ): { distance: number; nextStop: System } => {
   const { costs, parents } = system.createChildrenMapping(destination);
 
@@ -86,7 +89,7 @@ export const calculateShortest = (
   optimalPath.reverse(); // reverse array to get correct order
   const results = {
     distance: costs[destination.name].distance,
-    nextStop: optimalPath[0]
+    nextStop: optimalPath[0],
   };
 
   return results;

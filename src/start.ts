@@ -1,3 +1,3 @@
-import {GameEngine} from "./GameEngine";
+import { GameEngine } from "./GameEngine";
 
 GameEngine();

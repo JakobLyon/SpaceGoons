@@ -9,11 +9,11 @@ export interface SystemRoute {
 
 export const createSystemRoute = (
   destination: System,
-  distance: number
+  distance: number,
 ): SystemRoute => {
   return {
     destination,
     distance,
-    distanceType: intToDistanceType(distance)
+    distanceType: intToDistanceType(distance),
   };
 };

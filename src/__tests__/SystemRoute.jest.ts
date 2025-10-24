@@ -12,9 +12,11 @@ describe("SystemRoute tests", () => {
     const expectedSystemRoute: SystemRoute = {
       destination: testSystem,
       distanceType: DistanceType.Medium,
-      distance
+      distance,
     };
 
-    expect(createSystemRoute(testSystem, distance)).toStrictEqual(expectedSystemRoute);
+    expect(createSystemRoute(testSystem, distance)).toStrictEqual(
+      expectedSystemRoute,
+    );
   });
 });

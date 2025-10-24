@@ -16,14 +16,14 @@ export default class System {
     return this.routes
       .map((systemRoute, index) => {
         const { riskChance, rewardChance } = getRiskRewardChance(
-          systemRoute.distanceType
+          systemRoute.distanceType,
         );
         return `${index}: ${systemRoute.destination.name}, ${
           systemRoute.distance
         } Lightyears, Chance of Risk: ${riskChance.toLocaleString("en", {
-          style: "percent"
+          style: "percent",
         })}, Chance of Reward: ${rewardChance.toLocaleString("en", {
-          style: "percent"
+          style: "percent",
         })}`;
       })
       .join("\n");
@@ -45,7 +45,7 @@ export default class System {
     finalDestination: System,
     costs: { [x: string]: SystemNode } = null,
     parents = null,
-    processed: Array<string> = []
+    processed: Array<string> = [],
   ): {
     costs: { [x: string]: SystemNode };
     parents: { [x: string]: string };
@@ -67,24 +67,24 @@ export default class System {
       costs = {
         [finalDestination.name]: {
           system: finalDestination,
-          distance: Infinity
+          distance: Infinity,
         },
         ...this.routes.reduce((acc, cur) => {
           return {
             ...acc,
             [cur.destination.name]: {
               system: cur.destination,
-              distance: cur.distance
-            }
+              distance: cur.distance,
+            },
           };
-        }, {})
+        }, {}),
       };
     }
 
     if (!parents) {
       parents = { [finalDestination.name]: null };
     }
-    this.routes.forEach(route => {
+    this.routes.forEach((route) => {
       parents[route.destination.name] = this.name;
     });
 
@@ -92,19 +92,19 @@ export default class System {
     let node = this.lowestCostNode(costs, processed);
     while (node) {
       let systemNode = costs[node.system.name];
-      node.system.routes.forEach(route => {
+      node.system.routes.forEach((route) => {
         let newCost = systemNode.distance + route.distance;
         if (!costs[route.destination.name]) {
           costs[route.destination.name] = {
             system: route.destination,
-            distance: newCost
+            distance: newCost,
           };
           parents[route.destination.name] = node.system.name;
         }
         if (costs[route.destination.name].distance > newCost) {
           costs[route.destination.name] = {
             system: route.destination,
-            distance: newCost
+            distance: newCost,
           };
           parents[route.destination.name] = node.system.name;
         }
@@ -114,12 +114,12 @@ export default class System {
       node = this.lowestCostNode(costs, processed);
     }
 
-    nextToProcess.forEach(route => {
+    nextToProcess.forEach((route) => {
       route.destination.createChildrenMapping(
         finalDestination,
         costs,
         parents,
-        processed
+        processed,
       );
     });
 
@@ -128,7 +128,7 @@ export default class System {
 
   private lowestCostNode(
     costs: { [x: string]: SystemNode },
-    processed: String[]
+    processed: String[],
   ): SystemNode {
     const name = Object.keys(costs).reduce((lowest, systemName) => {
       if (

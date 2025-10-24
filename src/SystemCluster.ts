@@ -4,7 +4,7 @@ import { Chance } from "chance";
 import { SystemRoute } from "./SystemRoute";
 import {
   TRAVEL_DISTANCE_RANGE_MIN,
-  TRAVEL_DISTANCE_RANGE_MAX
+  TRAVEL_DISTANCE_RANGE_MAX,
 } from "./constants";
 import { intToDistanceType } from "./enums/DistanceTypeEnum";
 
@@ -32,7 +32,7 @@ export default class SystemCluster {
    * Return - null
    */
   linkSystems(nextCluster: SystemCluster) {
-    this.systems.forEach(system => {
+    this.systems.forEach((system) => {
       system.routes = nextCluster.getSystemsToLink();
     });
   }
@@ -43,26 +43,26 @@ export default class SystemCluster {
    */
   private getSystemsToLink(): Array<SystemRoute> {
     if (this.systems.length < 2) {
-      return this.systems.map(system => this.createSystemRoute(system));
+      return this.systems.map((system) => this.createSystemRoute(system));
     }
     const indexToNotInclude: number = this.generator.integer({
       min: 0,
-      max: this.systems.length - 1
+      max: this.systems.length - 1,
     });
     const systems = [...this.systems];
     systems.splice(indexToNotInclude, 1);
-    return systems.map(system => this.createSystemRoute(system));
+    return systems.map((system) => this.createSystemRoute(system));
   }
 
   createSystemRoute(system: System): SystemRoute {
     const distance = this.generator.integer({
       min: TRAVEL_DISTANCE_RANGE_MIN,
-      max: TRAVEL_DISTANCE_RANGE_MAX
+      max: TRAVEL_DISTANCE_RANGE_MAX,
     });
     return {
       destination: system,
       distanceType: intToDistanceType(distance),
-      distance
+      distance,
     };
   }
 }

@@ -13,18 +13,18 @@ describe("System Collection Class tests", () => {
     expect(testCluster3.systems.length).toBe(9);
     expect(testCluster4.systems.length).toBe(50);
     expect(testCluster5.systems.length).toBe(10000);
-  })
+  });
 
   it("linkSystems properly links 2 SystemClusters", () => {
     const testCluster1 = new SystemCluster(5);
     const testCluster2 = new SystemCluster(10);
 
-    testCluster1.systems.forEach(system => {
+    testCluster1.systems.forEach((system) => {
       expect(system.routes.length).toBe(0);
-    })
+    });
     testCluster1.linkSystems(testCluster2);
-    testCluster1.systems.forEach(system => {
+    testCluster1.systems.forEach((system) => {
       expect(system.routes.length).not.toBe(0);
-    })
-  })
+    });
+  });
 });

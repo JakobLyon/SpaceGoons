@@ -14,7 +14,7 @@ describe("TravelRoute tests", () => {
     const expectedTravelResult: TravelResult = {
       message: getSmoothSailingMessage(distance),
       suppliesConsumed: 5,
-      travelSuccessful: true
+      travelSuccessful: true,
     };
 
     expect(travelRoute(route, generator)).toStrictEqual(expectedTravelResult);

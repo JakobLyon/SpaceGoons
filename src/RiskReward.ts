@@ -10,17 +10,17 @@ export const getRiskRewardChance = (distanceType: DistanceType): RiskReward => {
     case DistanceType.Short:
       return {
         rewardChance: 0,
-        riskChance: 0.7
+        riskChance: 0.7,
       };
     case DistanceType.Medium:
       return {
         rewardChance: 0.45,
-        riskChance: 0.45
+        riskChance: 0.45,
       };
     default:
       return {
         rewardChance: 0.65,
-        riskChance: 0.25
+        riskChance: 0.25,
       };
   }
 };
