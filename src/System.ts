@@ -3,6 +3,12 @@ import { SystemRoute } from "./SystemRoute";
 import { getRiskRewardChance } from "./RiskReward";
 import { SystemNode } from "./interfaces/SystemNode";
 
+/**
+ * Represents a star system within a network of connected planetary systems
+ *
+ * Each system has a generated name, a list of routes to other systems, and an
+ * optional distance value to its parent system
+ */
 export default class System {
   name: string;
   routes: Array<SystemRoute>;
@@ -10,8 +16,19 @@ export default class System {
   constructor(generator: Chance.Chance = new Chance()) {
     this.name = generator.name();
     this.routes = [];
+    this.distanceToParent = 0;
   }
 
+  /**
+   * Generates a list of travel options from this system to connected systems.
+   *
+   * Each option includes the index, destination system name, distance in lightyears,
+   * and the calculated chances of risk and reward for that route.
+   *
+   * @returns A string where each line represents a travel option in the format:
+   *          "{index}: {destination name}, {distance} Lightyears,
+   *          Chance of Risk: {risk %}, Chance of Reward: {reward %}"
+   */
   travelOptions = (): string => {
     return this.routes
       .map((systemRoute, index) => {
@@ -30,39 +47,28 @@ export default class System {
   };
 
   /**
-   * {
-   * costs: {
-   *  [systemName]: distance<number>,
-   *  ...
-   * },
-   * parents: {
-   *   [systemName]: systemsParent<string>,
-   *   ...
-   * }
-   * }
+   * Builds a mapping of the shortest paths (costs) and parent systems from this system
+   * to the given final destination using a variation of Dijkstra's algorithm.
+   *
+   * This function recursively updates:
+   *  - `costs`: maps each system name to a `SystemNode` containing the system and current shortest distance
+   *  - `parents`: maps each system name to its parent system along the shortest path
+   *
+   * @param finalDestination - The system which is the target destination.
+   * @param costs - Optional existing cost mapping, used internally for recursion.
+   * @param parents - Optional existing parent mapping, used internally for recursion.
+   * @param processed - List of system names that have already been processed to prevent cycles.
+   * @returns An object containing updated `costs` and `parents` mappings.
    */
   createChildrenMapping = (
     finalDestination: System,
-    costs: { [x: string]: SystemNode } = null,
-    parents = null,
+    costs: { [x: string]: SystemNode } | null = null,
+    parents: { [x: string]: string | null } | null = null,
     processed: Array<string> = [],
   ): {
     costs: { [x: string]: SystemNode };
-    parents: { [x: string]: string };
+    parents: { [x: string]: string | null };
   } => {
-    if (this.name === finalDestination.name) {
-      return;
-    }
-
-    /**
-     * {
-     *  [childName]: {
-     *    node,
-     *    distance
-     *  },
-     * ...
-     * }
-     */
     if (!costs) {
       costs = {
         [finalDestination.name]: {
@@ -88,7 +94,7 @@ export default class System {
       parents[route.destination.name] = this.name;
     });
 
-    const nextToProcess = [];
+    const nextToProcess: SystemRoute[] = [];
     let node = this.lowestCostNode(costs, processed);
     while (node) {
       let systemNode = costs[node.system.name];
@@ -114,18 +120,24 @@ export default class System {
       node = this.lowestCostNode(costs, processed);
     }
 
-    nextToProcess.forEach((route) => {
+    for (const route of nextToProcess) {
       route.destination.createChildrenMapping(
         finalDestination,
         costs,
         parents,
         processed,
       );
-    });
+    }
 
     return { costs, parents };
   };
 
+  /**
+   *
+   * @param costs     A object of Systems
+   * @param processed An array of already processed Systems
+   * @returns         The system with the lowest cost to travel to
+   */
   private lowestCostNode(
     costs: { [x: string]: SystemNode },
     processed: String[],
