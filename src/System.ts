@@ -138,20 +138,19 @@ export default class System {
    * @returns         The system with the lowest cost to travel to
    */
   private lowestCostNode(
-    costs: { [x: string]: SystemNode },
-    processed: String[],
-  ): SystemNode {
-    const name = Object.keys(costs).reduce((lowest, systemName) => {
-      if (
-        lowest === null ||
-        costs[systemName].distance < costs[lowest].distance
-      ) {
-        if (!processed.includes(systemName)) {
-          lowest = systemName;
-        }
+    costs: Record<string, SystemNode>,
+    processed: string[],
+  ): SystemNode | null {
+    let lowestName: string | null = null;
+    let lowestDistance = Infinity;
+
+    for (const [name, node] of Object.entries(costs)) {
+      if (!processed.includes(name) && node.distance < lowestDistance) {
+        lowestDistance = node.distance;
+        lowestName = name;
       }
-      return lowest;
-    }, null);
-    return costs[name];
+    }
+
+    return lowestName ? costs[lowestName] : null;
   }
 }
