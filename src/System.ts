@@ -29,8 +29,8 @@ export default class System {
    *          "{index}: {destination name}, {distance} Lightyears,
    *          Chance of Risk: {risk %}, Chance of Reward: {reward %}"
    */
-  travelOptions = (): string => {
-    return this.routes
+  travelOptions = (): string =>
+    this.routes
       .map((systemRoute, index) => {
         const { riskChance, rewardChance } = getRiskRewardChance(
           systemRoute.distanceType,
@@ -44,7 +44,6 @@ export default class System {
         })}`;
       })
       .join("\n");
-  };
 
   /**
    * Builds a mapping of the shortest paths (costs) and parent systems from this system
@@ -62,12 +61,12 @@ export default class System {
    */
   createChildrenMapping = (
     finalDestination: System,
-    costs: { [x: string]: SystemNode } | null = null,
-    parents: { [x: string]: string | null } | null = null,
+    costs: { [systemName: string]: SystemNode } | null = null,
+    parents: { [systemName: string]: string | null } | null = null,
     processed: Array<string> = [],
   ): {
-    costs: { [x: string]: SystemNode };
-    parents: { [x: string]: string | null };
+    costs: { [systemName: string]: SystemNode };
+    parents: { [systemName: string]: string | null };
   } => {
     if (!costs) {
       costs = {
