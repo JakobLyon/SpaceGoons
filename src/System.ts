@@ -2,6 +2,7 @@ import { Chance } from "chance";
 import { SystemRoute } from "./SystemRoute";
 import { getRiskRewardChance } from "./RiskReward";
 import { SystemNode } from "./interfaces/SystemNode";
+import { DistanceType } from "./enums/DistanceTypeEnum";
 
 /**
  * Represents a star system within a network of connected planetary systems
@@ -61,96 +62,96 @@ export default class System {
    */
   createChildrenMapping = (
     finalDestination: System,
-    costs: { [systemName: string]: SystemNode } | null = null,
+    unprocessedSystems: { [systemName: string]: SystemRoute } = {},
     parents: { [systemName: string]: string | null } | null = null,
     processed: Array<string> = [],
   ): {
-    costs: { [systemName: string]: SystemNode };
+    unprocessedSystems: { [systemName: string]: SystemRoute };
     parents: { [systemName: string]: string | null };
   } => {
-    if (!costs) {
-      costs = {
-        [finalDestination.name]: {
-          system: finalDestination,
-          distance: Infinity,
-        },
-        ...this.routes.reduce((acc, cur) => {
-          return {
-            ...acc,
-            [cur.destination.name]: {
-              system: cur.destination,
-              distance: cur.distance,
-            },
-          };
-        }, {}),
+    // 1/2. Create set of all unvisited Systems
+    if (Object.keys(unprocessedSystems).length === 0) {
+      unprocessedSystems[finalDestination.name] = {
+        destination: finalDestination,
+        distance: Infinity,
+        distanceType: DistanceType.Long,
       };
+      for (const route of this.routes) {
+        unprocessedSystems[route.destination.name] = route;
+      }
     }
 
+    // initialize parents
     if (!parents) {
       parents = { [finalDestination.name]: null };
     }
-    this.routes.forEach((route) => {
+
+    for (const route of this.routes) {
       parents[route.destination.name] = this.name;
-    });
+    }
 
     const nextToProcess: SystemRoute[] = [];
-    let node = this.lowestCostNode(costs, processed);
-    while (node) {
-      let systemNode = costs[node.system.name];
-      node.system.routes.forEach((route) => {
-        let newCost = systemNode.distance + route.distance;
-        if (!costs[route.destination.name]) {
-          costs[route.destination.name] = {
+    // 3. Get System with lowest distance, if current System is
+    // target system, continue
+    const systemRoute = this.lowestCostRoute(unprocessedSystems, processed);
+    let system = unprocessedSystems[systemRoute?.destination.name];
+    while (system) {
+      let system = unprocessedSystems[system.system.name];
+      system.system.routes.forEach((route) => {
+        let newCost = systemsystem.distance + route.distance;
+        if (!unprocessedSystems[route.destination.name]) {
+          unprocessedSystems[route.destination.name] = {
             system: route.destination,
             distance: newCost,
           };
-          parents[route.destination.name] = node.system.name;
+          parents[route.destination.name] = system.system.name;
         }
-        if (costs[route.destination.name].distance > newCost) {
-          costs[route.destination.name] = {
+        if (unprocessedSystems[route.destination.name].distance > newCost) {
+          unprocessedSystems[route.destination.name] = {
             system: route.destination,
             distance: newCost,
           };
-          parents[route.destination.name] = node.system.name;
+          parents[route.destination.name] = system.system.name;
         }
         nextToProcess.push(...route.destination.routes);
       });
-      processed.push(node.system.name);
-      node = this.lowestCostNode(costs, processed);
+      processed.push(system.system.name);
+      systemRoute = this.lowestCostRoute(unprocessedSystems, processed);
     }
 
     for (const route of nextToProcess) {
       route.destination.createChildrenMapping(
         finalDestination,
-        costs,
+        unprocessedSystems,
         parents,
         processed,
       );
     }
 
-    return { costs, parents };
+    return { unprocessedSystems, parents };
   };
 
   /**
+   * Given a set of Systems, find the one with the lowest distance
    *
-   * @param costs     A object of Systems
-   * @param processed An array of already processed Systems
-   * @returns         The system with the lowest cost to travel to
+   * @param unprocessedSystems     A map of System Routes
+   * @param processed              An array of already processed Systems
+   * @returns                      The system with the lowest cost to travel to
    */
-  private lowestCostNode(
-    costs: Record<string, SystemNode>,
+  private lowestCostRoute(
+    systemRoutes: Record<string, SystemRoute>,
     processed: string[],
-  ): SystemNode | null {
-    let lowestName: string | null = null;
+  ): SystemRoute {
+    let lowestName: string = "";
     let lowestDistance = Infinity;
 
-    for (const [name, node] of Object.entries(costs)) {
+    for (const [name, node] of Object.entries(systemRoutes)) {
       if (!processed.includes(name) && node.distance < lowestDistance) {
         lowestDistance = node.distance;
         lowestName = name;
       }
     }
 
-    return lowestName ? costs[lowestName] : null;
+    return systemRoutes[lowestName];
   }
 }
