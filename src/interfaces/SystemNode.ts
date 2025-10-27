@@ -1,4 +1,4 @@
-import System from "../System";
+import System from "../StarSystem";
 
 export interface SystemNode {
   system: System;

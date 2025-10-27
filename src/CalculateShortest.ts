@@ -1,4 +1,4 @@
-import System from "./System";
+import System from "./StarSystem";
 
 /**
  * Determine the shortest path between two Planetary Systems and return the next system
