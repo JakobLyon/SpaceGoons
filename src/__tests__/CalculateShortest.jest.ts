@@ -33,4 +33,18 @@ describe("Calculate Shortest tests", () => {
       testGalaxy.startingSystem.routes[0].destination,
     );
   });
+
+  it("creates a shortest-path mapping from a system", () => {
+    const testGenerator = new Chance(testSeed);
+    const testGalaxy = new Galaxy(testGenerator);
+    testGalaxy.generateGalaxy(5);
+    const mapping = testGalaxy.startingSystem.createChildrenMapping(
+      testGalaxy.destinationSystem,
+    );
+
+    expect(mapping).toHaveProperty("costs");
+    expect(mapping).toHaveProperty("parents");
+    expect(mapping.parents[testGalaxy.startingSystem.name]).toBeNull();
+    expect(mapping.costs[testGalaxy.destinationSystem.name].distance).toBe(12);
+  });
 });

@@ -2,6 +2,11 @@ import { DistanceType } from "./enums/DistanceTypeEnum";
 import StarSystem from "./StarSystem";
 import { SystemRoute } from "./SystemRoute";
 
+export interface ShortestPathResult {
+  costs: Record<string, SystemRoute>;
+  parents: Record<string, string | null>;
+}
+
 export class Pathfinder {
   /**
    *
@@ -10,9 +15,9 @@ export class Pathfinder {
    */
   static computeShortestPaths = (
     start: StarSystem,
-  ): Record<string, string | null> => {
+  ): ShortestPathResult => {
     const costs: Record<string, SystemRoute> = {};
-    const routeToDestination: Record<string, string | null> = {};
+    const parents: Record<string, string | null> = {};
     const processed = new Set<string>();
 
     // Initialize all connected systems
@@ -24,7 +29,7 @@ export class Pathfinder {
       };
     }
 
-    routeToDestination[start.name] = null;
+    parents[start.name] = null;
 
     let systemRoute = Pathfinder.lowestCostRoute(costs, processed);
     while (systemRoute) {
@@ -41,14 +46,14 @@ export class Pathfinder {
             distanceType: DistanceType.Long,
           };
         }
-        routeToDestination[route.destination.name] = currentSystem.name;
+        parents[route.destination.name] = currentSystem.name;
       }
 
       processed.add(currentSystem.name);
       systemRoute = Pathfinder.lowestCostRoute(costs, processed);
     }
 
-    return routeToDestination;
+    return { costs, parents };
   };
 
   /**
@@ -63,19 +68,16 @@ export class Pathfinder {
     start: StarSystem,
     destination: StarSystem,
   ): SystemRoute | null {
-    const routeToDestination = Pathfinder.computeShortestPaths(start);
+    const { parents } = Pathfinder.computeShortestPaths(start);
 
-    if (!routeToDestination[destination.name]) {
+    if (!parents[destination.name]) {
       return null;
     }
 
     // Backtrack from destination to find first hop from start
     let current = destination.name;
-    while (
-      routeToDestination[current] &&
-      routeToDestination[routeToDestination[current]!] !== null
-    ) {
-      current = routeToDestination[current]!;
+    while (parents[current] !== start.name && parents[current] !== null) {
+      current = parents[current]!;
     }
 
     return (

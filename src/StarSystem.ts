@@ -65,4 +65,8 @@ export default class StarSystem {
   getNextClosestRoute(destination: StarSystem) {
     return Pathfinder.getNextShortestRoute(this, destination);
   }
+
+  createChildrenMapping(destination: StarSystem) {
+    return Pathfinder.computeShortestPaths(this);
+  }
 }
