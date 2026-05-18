@@ -1,4 +1,5 @@
 import System from "./StarSystem";
+import { Pathfinder } from "./Pathfinder";
 
 /**
  * Determine the shortest path between two Planetary Systems and return the next system
@@ -12,29 +13,11 @@ export const calculateShortest = (
   system: System,
   destination: System,
 ): { distance: number; nextStop: System } => {
-  const { costs, parents } = system.createChildrenMapping(destination);
+  const { costs } = Pathfinder.computeShortestPaths(system);
+  const nextRoute = Pathfinder.getNextShortestRoute(system, destination);
 
-  /**
-   * {
-   * [name]: [name],
-   * [parentName]: [childName]
-   * }
-   *
-   * System.createChildrenMapping
-   */
-
-  let optimalPath: Array<System> = [destination];
-  let parentName = parents[destination.name];
-  while (parentName) {
-    optimalPath.push(costs[parentName].system);
-    parentName = costs[parents[parentName]]?.system.name;
-  }
-
-  optimalPath.reverse(); // reverse array to get correct order
-  const results = {
+  return {
     distance: costs[destination.name].distance,
-    nextStop: optimalPath[0],
+    nextStop: nextRoute ? nextRoute.destination : system,
   };
-
-  return results;
 };

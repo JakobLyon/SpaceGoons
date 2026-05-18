@@ -45,8 +45,8 @@ export class Pathfinder {
             distance: newCost,
             distanceType: DistanceType.Long,
           };
+          parents[route.destination.name] = currentSystem.name;
         }
-        parents[route.destination.name] = currentSystem.name;
       }
 
       processed.add(currentSystem.name);
