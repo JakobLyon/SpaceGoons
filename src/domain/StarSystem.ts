@@ -1,7 +1,8 @@
 import { Chance } from "chance";
 import { SystemRoute } from "./SystemRoute";
-import { getRiskRewardChance } from "./RiskReward";
-import { Pathfinder } from "./Pathfinder";
+import { getRiskRewardChance } from "../RiskReward";
+import { Pathfinder } from "../Pathfinder";
+import { SystemType } from "../enums/SystemTypeEnum";
 
 /**
  * Represents a star system within a network of connected planetary systems
@@ -11,10 +12,14 @@ import { Pathfinder } from "./Pathfinder";
  */
 export default class StarSystem {
   name: string;
+  type: SystemType;
   routes: Array<SystemRoute>;
   distanceToParent: number;
   constructor(generator: Chance.Chance = new Chance()) {
     this.name = generator.name();
+    this.type = generator.pickone(
+      Object.values(SystemType).filter((v) => typeof v === "number") as SystemType[]
+    );
     this.routes = [];
     this.distanceToParent = 0;
   }

@@ -1,6 +1,6 @@
 import { DistanceType } from "./enums/DistanceTypeEnum";
-import StarSystem from "./StarSystem";
-import { SystemRoute } from "./SystemRoute";
+import StarSystem from "./domain/StarSystem";
+import { SystemRoute } from "./domain/SystemRoute";
 
 export interface ShortestPathResult {
   costs: Record<string, SystemRoute>;

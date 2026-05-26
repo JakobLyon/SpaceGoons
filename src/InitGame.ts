@@ -1,6 +1,6 @@
 import { askQuestion } from "./AskQuestion";
 import { Chance } from "chance";
-import Galaxy from "./Galaxy";
+import Galaxy from "./domain/Galaxy";
 import Player from "./Player";
 
 export const init = async () => {

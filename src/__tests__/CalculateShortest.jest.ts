@@ -1,5 +1,5 @@
 import { calculateShortest } from "../CalculateShortest";
-import Galaxy from "../Galaxy";
+import Galaxy from "../domain/Galaxy";
 import { testSeed } from "../constants";
 import { Chance } from "chance";
 

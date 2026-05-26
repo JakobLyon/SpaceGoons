@@ -1,4 +1,4 @@
-import { SystemRoute } from "./SystemRoute";
+import { SystemRoute } from "./domain/SystemRoute";
 import { TravelResult } from "./interfaces/TravelResult";
 import { getRiskRewardChance } from "./RiskReward";
 import {

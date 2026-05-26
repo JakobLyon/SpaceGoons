@@ -1,5 +1,5 @@
 import System from "./StarSystem";
-import { DistanceType, intToDistanceType } from "./enums/DistanceTypeEnum";
+import { DistanceType, intToDistanceType } from "../enums/DistanceTypeEnum";
 
 export interface SystemRoute {
   destination: System;

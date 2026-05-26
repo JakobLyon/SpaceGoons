@@ -1,4 +1,4 @@
-import System from "./StarSystem";
+import System from "./domain/StarSystem";
 import { Pathfinder } from "./Pathfinder";
 
 /**

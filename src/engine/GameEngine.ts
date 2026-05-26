@@ -1,15 +1,15 @@
-import { travelRoute } from "./TravelRoute";
-import { TravelResult } from "./interfaces/TravelResult";
+import { travelRoute } from "../TravelRoute";
+import { TravelResult } from "../interfaces/TravelResult";
 import {
   winGameMessage,
   loseGameNoSuppliesMessage,
   loseGameTooLongMessage,
   CALC_SHORTEST_COST,
-} from "./constants";
-import { GameEndCondition } from "./enums/GameEndCondition";
-import { askQuestion } from "./AskQuestion";
-import { init } from "./InitGame";
-import { calculateShortest } from "./CalculateShortest";
+} from "../constants";
+import { GameEndCondition } from "../enums/GameEndCondition";
+import { askQuestion } from "../AskQuestion";
+import { init } from "../InitGame";
+import { calculateShortest } from "../CalculateShortest";
 
 /**
  * Run Game

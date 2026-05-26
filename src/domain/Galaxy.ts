@@ -1,5 +1,5 @@
 import SystemCluster from "./SystemCluster";
-import Range from "./NumberRange";
+import Range from "../NumberRange";
 import { Chance } from "chance";
 import System from "./StarSystem";
 
