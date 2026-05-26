@@ -1,0 +1,103 @@
+SpaceGoons Class and Module Structure
+=====================================
+
+This document describes the main classes, modules, and their responsibilities in the SpaceGoons source tree.
+
+Entry point
+-----------
+- `src/start.ts`
+  - Starts the game by invoking `GameEngine()`.
+  - Acts as the application entrypoint for the compiled package.
+
+Game flow and setup
+-------------------
+- `src/GameEngine.ts`
+  - Contains the main game loop.
+  - Prompts the user for each turn, accepts route selection input, and processes travel outcomes.
+  - Tracks `Player` state and checks end-game conditions: supplies depletion, distance over 45 lightyears, victory.
+  - Handles the `shortest` command to call the navigation helper.
+
+- `src/InitGame.ts`
+  - Initializes the game session.
+  - Prompts for a seed and constructs the random generator.
+  - Creates `Galaxy` and `Player` instances.
+  - Prints the introductory narrative and rules.
+
+Data model and world generation
+-------------------------------
+- `src/Galaxy.ts`
+  - Builds a procedural galaxy as a sequence of clusters.
+  - Generates the destination cluster, intermediate clusters, and starting cluster.
+  - Links clusters together and exposes `startingSystem`, `destinationSystem`, and `size`.
+
+- `src/SystemCluster.ts`
+  - Represents a cluster/layer of star systems.
+  - Builds a set of `StarSystem` instances.
+  - Links the cluster to the next cluster by generating routes.
+  - Controls the number of outbound system connections.
+
+- `src/StarSystem.ts`
+  - Represents a single star system node.
+  - Stores a name and outbound `routes`.
+  - Formats travel options for display.
+  - Exposes a helper to find the next best route via `Pathfinder`.
+
+- `src/SystemRoute.ts`
+  - Defines the route object between systems.
+  - Contains destination, distance, and distance type.
+
+Algorithm and navigation
+------------------------
+- `src/Pathfinder.ts`
+  - Implements shortest-path calculations and path mapping.
+  - Computes cheapest path costs and parent pointers from a start system.
+  - Determines the next route to take on the shortest path to a destination.
+
+- `src/CalculateShortest.ts`
+  - Wraps the pathfinder logic for the game engine.
+  - Returns the total distance and next stop for the immediate optimal route.
+
+Route mechanics and outcomes
+---------------------------
+- `src/TravelRoute.ts`
+  - Resolves travel on a selected route.
+  - Applies risk/reward probabilities and computes actual supply cost.
+  - Returns result messages and whether the travel succeeded.
+
+- `src/RiskReward.ts`
+  - Maps `DistanceType` to risk and reward chances.
+  - Encapsulates the probability model used by travel outcomes.
+
+Player state
+------------
+- `src/Player.ts`
+  - Stores player resources: `supplies` and `distanceTraveled`.
+  - Provides a `travel()` method to deduct supplies and add distance.
+
+Utilities and constants
+-----------------------
+- `src/AskQuestion.ts`
+  - Prompts the user via the command line and returns typed input.
+
+- `src/NumberRange.ts`
+  - Represents an integer range with a `getRandomInRange()` utility.
+
+- `src/constants.ts`
+  - Defines numeric constants, supply ranges, and messages.
+  - Includes game text for rewards, risks, and end-game outcomes.
+
+Relationships and flow
+----------------------
+- Game starts at `src/start.ts` and enters `GameEngine()`.
+- `GameEngine` uses `InitGame` to build the game world and player.
+- `Galaxy` produces connected `SystemCluster` layers and `StarSystem` nodes.
+- `StarSystem` routes are created using `SystemRoute` objects.
+- Travel decisions are resolved through `TravelRoute` and `RiskReward`.
+- Shortest-path navigation is handled by `Pathfinder`, and exposed through `CalculateShortest`.
+- `Player` stores the evolving game state across turns.
+
+Notes
+-----
+- The class structure is intentionally separated between world generation, game flow, route outcome resolution, and pathfinding.
+- `Pathfinder` is the central navigation algorithm, while `CalculateShortest` is the game-facing wrapper.
+- `StarSystem` keeps the per-node model simple and delegates pathfinding to `Pathfinder`.

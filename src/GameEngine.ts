@@ -18,7 +18,7 @@ export const GameEngine = async () => {
   const { generator, newGalaxy, newPlayer } = await init();
   let currentSystem = newGalaxy.startingSystem;
 
-  let gameEnd: GameEndCondition = null;
+  let gameEnd: GameEndCondition | null = null;
   while (!gameEnd) {
     let playerChoice = null;
     const answer = await askQuestion(
@@ -41,7 +41,7 @@ export const GameEngine = async () => {
       newPlayer.supplies -= CALC_SHORTEST_COST;
     } else if (
       currentSystem.routes
-        .map((route, index) => index)
+        .map((_, index) => index)
         .includes(parseInt(answer, 10))
     ) {
       playerChoice = parseInt(answer, 10);

@@ -3,7 +3,7 @@
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
     // Specify ECMAScript target version.
     "declaration": true, // Generate .d.ts files for type definitions.
-    "outDir": "./dist", // Output directory for compiled files.
+    "outDir": "./lib", // Output directory for compiled files.
     "rootDir": "./src", // Root directory of TypeScript source files.
 
     /* Projects */
