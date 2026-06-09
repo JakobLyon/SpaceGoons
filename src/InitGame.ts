@@ -4,7 +4,9 @@ import Galaxy from './domain/Galaxy';
 import Player from './domain/Player';
 
 export const init = async () => {
-  let seed: string = await askQuestion('Would you like to play with a custom seed?');
+  let seed: string = await askQuestion(
+    'Would you like to play with a custom seed?'
+  );
 
   seed = seed ? seed : new Chance().guid();
 

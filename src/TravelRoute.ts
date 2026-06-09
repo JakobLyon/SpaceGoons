@@ -25,7 +25,10 @@ import {
   HIGH_RISK_SUPPLIES_CONSUMED_MAX,
 } from './constants';
 
-export const travelRoute = (route: SystemRoute, generator: Chance.Chance): TravelResult => {
+export const travelRoute = (
+  route: SystemRoute,
+  generator: Chance.Chance
+): TravelResult => {
   const { riskChance, rewardChance } = getRiskRewardChance(route.distanceType);
 
   const riskOrReward = generator.floating({ min: 0, max: 1 });
@@ -44,7 +47,10 @@ export const travelRoute = (route: SystemRoute, generator: Chance.Chance): Trave
   }
 };
 
-function calculateReward(rewardRoll: number, generator: Chance.Chance): TravelResult {
+function calculateReward(
+  rewardRoll: number,
+  generator: Chance.Chance
+): TravelResult {
   let suppliesConsumed: number;
   if (rewardRoll <= 0.25) {
     suppliesConsumed = generator.integer({
@@ -85,7 +91,11 @@ function calculateReward(rewardRoll: number, generator: Chance.Chance): TravelRe
   }
 }
 
-function calculateRisk(riskRoll: number, distance: number, generator: Chance.Chance): TravelResult {
+function calculateRisk(
+  riskRoll: number,
+  distance: number,
+  generator: Chance.Chance
+): TravelResult {
   let suppliesConsumed: number;
   if (riskRoll <= 0.25) {
     suppliesConsumed = generator.integer({

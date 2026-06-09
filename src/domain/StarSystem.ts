@@ -18,7 +18,9 @@ export default class StarSystem {
   constructor(generator: Chance.Chance = new Chance()) {
     this.name = generator.name();
     this.type = generator.pickone(
-      Object.values(SystemType).filter((v) => typeof v === 'number') as SystemType[]
+      Object.values(SystemType).filter(
+        (v) => typeof v === 'number'
+      ) as SystemType[]
     );
     this.routes = [];
     this.distanceToParent = 0;
@@ -37,7 +39,9 @@ export default class StarSystem {
   travelOptions = (): string =>
     this.routes
       .map((systemRoute, index) => {
-        const { riskChance, rewardChance } = getRiskRewardChance(systemRoute.distanceType);
+        const { riskChance, rewardChance } = getRiskRewardChance(
+          systemRoute.distanceType
+        );
         return `${index}: ${systemRoute.destination.name}, ${
           systemRoute.distance
         } Lightyears, Chance of Risk: ${riskChance.toLocaleString('en', {

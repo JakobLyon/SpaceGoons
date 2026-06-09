@@ -42,7 +42,10 @@ export default class Galaxy {
     // create rest of galaxy
     for (var i = 0; i < numOfClusters; i++) {
       // create galaxy layer (systemcol)
-      newCluster = new SystemCluster(layerWidthRange.getRandomInRange(), this.generator);
+      newCluster = new SystemCluster(
+        layerWidthRange.getRandomInRange(),
+        this.generator
+      );
       // link layer to previous
       newCluster.linkSystems(this.getFirstCluster());
       this.clusters.unshift(newCluster);

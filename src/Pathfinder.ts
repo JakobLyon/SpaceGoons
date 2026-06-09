@@ -62,7 +62,10 @@ export class Pathfinder {
    * @param destination The target system
    * @returns           The next SystemRoute to take, or null if no path exists
    */
-  static getNextShortestRoute(start: StarSystem, destination: StarSystem): SystemRoute | null {
+  static getNextShortestRoute(
+    start: StarSystem,
+    destination: StarSystem
+  ): SystemRoute | null {
     const { parents } = Pathfinder.computeShortestPaths(start);
 
     if (!parents[destination.name]) {
@@ -75,7 +78,9 @@ export class Pathfinder {
       current = parents[current]!;
     }
 
-    return start.routes.find((route) => route.destination.name === current) ?? null;
+    return (
+      start.routes.find((route) => route.destination.name === current) ?? null
+    );
   }
 
   /**
@@ -87,7 +92,10 @@ export class Pathfinder {
   ): SystemRoute | null {
     let lowest: SystemRoute | null = null;
     for (const [systemName, route] of Object.entries(costs)) {
-      if (!processed.has(systemName) && (!lowest || route.distance < lowest.distance)) {
+      if (
+        !processed.has(systemName) &&
+        (!lowest || route.distance < lowest.distance)
+      ) {
         lowest = route;
       }
     }

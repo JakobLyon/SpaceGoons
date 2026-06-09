@@ -46,7 +46,8 @@ export const getSmoothSailingMessage = (supplies: number): string =>
   `The bright light of the system approaches as you arrive unimpeded. You use only ${supplies} supplies.`;
 
 // End game messages
-export const winGameMessage = 'After a long and arduous journey, you finally arrive home. VICTORY!';
+export const winGameMessage =
+  'After a long and arduous journey, you finally arrive home. VICTORY!';
 export const loseGameNoSuppliesMessage =
   "You've run out of supplies and your ship is floating aimlessly into the void. DEFEAT!";
 export const loseGameTooLongMessage =

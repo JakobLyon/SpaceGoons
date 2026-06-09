@@ -15,6 +15,8 @@ describe('SystemRoute tests', () => {
       distance,
     };
 
-    expect(createSystemRoute(testSystem, distance)).toStrictEqual(expectedSystemRoute);
+    expect(createSystemRoute(testSystem, distance)).toStrictEqual(
+      expectedSystemRoute
+    );
   });
 });

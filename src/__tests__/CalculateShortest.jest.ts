@@ -14,7 +14,9 @@ describe('Calculate Shortest tests', () => {
     );
 
     expect(distance).toBe(12);
-    expect(nextStop).toStrictEqual(testGalaxy.startingSystem.routes[3].destination);
+    expect(nextStop).toStrictEqual(
+      testGalaxy.startingSystem.routes[3].destination
+    );
   });
 
   it('', () => {
@@ -27,14 +29,18 @@ describe('Calculate Shortest tests', () => {
     );
 
     expect(distance).toBe(5);
-    expect(nextStop).toStrictEqual(testGalaxy.startingSystem.routes[0].destination);
+    expect(nextStop).toStrictEqual(
+      testGalaxy.startingSystem.routes[0].destination
+    );
   });
 
   it('creates a shortest-path mapping from a system', () => {
     const testGenerator = new Chance(testSeed);
     const testGalaxy = new Galaxy(testGenerator);
     testGalaxy.generateGalaxy(5);
-    const mapping = testGalaxy.startingSystem.createChildrenMapping(testGalaxy.destinationSystem);
+    const mapping = testGalaxy.startingSystem.createChildrenMapping(
+      testGalaxy.destinationSystem
+    );
 
     expect(mapping).toHaveProperty('costs');
     expect(mapping).toHaveProperty('parents');

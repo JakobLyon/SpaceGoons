@@ -27,7 +27,11 @@ interface TravelContext {
   system: StarSystem;
 }
 
-export const resolveTravelEvent = ({ player, route, system }: TravelContext): SpaceGoonsEvent => {
+export const resolveTravelEvent = ({
+  player,
+  route,
+  system,
+}: TravelContext): SpaceGoonsEvent => {
   const weights = buildWeights(player, route, system);
   const event = rollEvent(weights, EVENT_TABLE);
   return event;

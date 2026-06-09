@@ -7,7 +7,10 @@ export interface SystemRoute {
   distance: number;
 }
 
-export const createSystemRoute = (destination: System, distance: number): SystemRoute => {
+export const createSystemRoute = (
+  destination: System,
+  distance: number
+): SystemRoute => {
   return {
     destination,
     distance,
