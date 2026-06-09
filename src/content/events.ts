@@ -1,6 +1,6 @@
 type SpaceGoonsEvent = {
-    id: string;
-    type: "nothing" | "loss" | "gain" | "encounter";
-    weight: number;
-    apply: () => void;
-}
+  id: string;
+  type: 'nothing' | 'loss' | 'gain' | 'encounter';
+  weight: number;
+  apply: () => void;
+};

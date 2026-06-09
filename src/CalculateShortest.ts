@@ -1,5 +1,5 @@
-import System from "./domain/StarSystem";
-import { Pathfinder } from "./Pathfinder";
+import System from './domain/StarSystem';
+import { Pathfinder } from './Pathfinder';
 
 /**
  * Determine the shortest path between two Planetary Systems and return the next system
@@ -11,7 +11,7 @@ import { Pathfinder } from "./Pathfinder";
  */
 export const calculateShortest = (
   system: System,
-  destination: System,
+  destination: System
 ): { distance: number; nextStop: System } => {
   const { costs } = Pathfinder.computeShortestPaths(system);
   const nextRoute = Pathfinder.getNextShortestRoute(system, destination);

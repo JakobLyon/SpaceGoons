@@ -1,5 +1,5 @@
-import System from "./StarSystem";
-import { DistanceType, intToDistanceType } from "../enums/DistanceTypeEnum";
+import System from './StarSystem';
+import { DistanceType, intToDistanceType } from '../enums/DistanceTypeEnum';
 
 export interface SystemRoute {
   destination: System;
@@ -7,10 +7,7 @@ export interface SystemRoute {
   distance: number;
 }
 
-export const createSystemRoute = (
-  destination: System,
-  distance: number,
-): SystemRoute => {
+export const createSystemRoute = (destination: System, distance: number): SystemRoute => {
   return {
     destination,
     distance,

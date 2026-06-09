@@ -1,4 +1,4 @@
-import { DistanceType } from "./enums/DistanceTypeEnum";
+import { DistanceType } from './enums/DistanceTypeEnum';
 
 export interface RiskReward {
   riskChance: number;

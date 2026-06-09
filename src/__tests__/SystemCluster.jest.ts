@@ -1,7 +1,7 @@
-import SystemCluster from "../SystemCluster";
+import SystemCluster from '../SystemCluster';
 
-describe("System Collection Class tests", () => {
-  it("Creates N Systems on creation", () => {
+describe('System Collection Class tests', () => {
+  it('Creates N Systems on creation', () => {
     const testCluster1 = new SystemCluster(2);
     const testCluster2 = new SystemCluster(5);
     const testCluster3 = new SystemCluster(9);
@@ -15,7 +15,7 @@ describe("System Collection Class tests", () => {
     expect(testCluster5.systems.length).toBe(10000);
   });
 
-  it("linkSystems properly links 2 SystemClusters", () => {
+  it('linkSystems properly links 2 SystemClusters', () => {
     const testCluster1 = new SystemCluster(5);
     const testCluster2 = new SystemCluster(10);
 

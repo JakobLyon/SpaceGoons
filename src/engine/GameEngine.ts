@@ -1,15 +1,15 @@
-import { travelRoute } from "../TravelRoute";
-import { TravelResult } from "../interfaces/TravelResult";
+import { travelRoute } from '../TravelRoute';
+import { TravelResult } from '../interfaces/TravelResult';
 import {
   winGameMessage,
   loseGameNoSuppliesMessage,
   loseGameTooLongMessage,
   CALC_SHORTEST_COST,
-} from "../constants";
-import { GameEndCondition } from "../enums/GameEndCondition";
-import { askQuestion } from "../AskQuestion";
-import { init } from "../InitGame";
-import { calculateShortest } from "../CalculateShortest";
+} from '../constants';
+import { GameEndCondition } from '../enums/GameEndCondition';
+import { askQuestion } from '../AskQuestion';
+import { init } from '../InitGame';
+import { calculateShortest } from '../CalculateShortest';
 
 /**
  * Run Game
@@ -26,43 +26,30 @@ export const GameEngine = async () => {
         currentSystem.name
       } and your options are as follows: \n${currentSystem.travelOptions()}\nshortest: Pay 1 supply to calculate the immediate route leading to the shortest path.\nYou have ${
         newPlayer.supplies
-      } supplies left and must arrive in ${
-        45 - newPlayer.distanceTraveled
-      } Lightyears.`}\n`,
+      } supplies left and must arrive in ${45 - newPlayer.distanceTraveled} Lightyears.`}\n`
     );
-    if (answer === "shortest") {
-      const { nextStop } = calculateShortest(
-        currentSystem,
-        newGalaxy.destinationSystem,
-      );
+    if (answer === 'shortest') {
+      const { nextStop } = calculateShortest(currentSystem, newGalaxy.destinationSystem);
       console.log(
-        `Your ship computer calculates which jump would bring you along the shortest path. Some time passes, burning through ${CALC_SHORTEST_COST} supply. Your ship determines ${nextStop.name} is the shortest route.\n`,
+        `Your ship computer calculates which jump would bring you along the shortest path. Some time passes, burning through ${CALC_SHORTEST_COST} supply. Your ship determines ${nextStop.name} is the shortest route.\n`
       );
       newPlayer.supplies -= CALC_SHORTEST_COST;
-    } else if (
-      currentSystem.routes
-        .map((_, index) => index)
-        .includes(parseInt(answer, 10))
-    ) {
+    } else if (currentSystem.routes.map((_, index) => index).includes(parseInt(answer, 10))) {
       playerChoice = parseInt(answer, 10);
     } else {
-      console.log("That is not a valid travel plan.\n");
+      console.log('That is not a valid travel plan.\n');
     }
 
     let travelResult: TravelResult;
     if (playerChoice !== null && playerChoice !== undefined) {
       travelResult = travelRoute(currentSystem.routes[playerChoice], generator);
 
-      newPlayer.travel(
-        travelResult.suppliesConsumed,
-        currentSystem.routes[playerChoice].distance,
-      );
+      newPlayer.travel(travelResult.suppliesConsumed, currentSystem.routes[playerChoice].distance);
       console.log(`${travelResult.message}\n`);
 
       if (
         travelResult.travelSuccessful &&
-        currentSystem.routes[playerChoice].destination ===
-          newGalaxy.destinationSystem
+        currentSystem.routes[playerChoice].destination === newGalaxy.destinationSystem
       ) {
         gameEnd = GameEndCondition.Victory;
       } else if (travelResult.travelSuccessful) {

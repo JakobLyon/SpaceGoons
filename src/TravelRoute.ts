@@ -1,6 +1,6 @@
-import { SystemRoute } from "./domain/SystemRoute";
-import { TravelResult } from "./interfaces/TravelResult";
-import { getRiskRewardChance } from "./RiskReward";
+import { SystemRoute } from './domain/SystemRoute';
+import { TravelResult } from './interfaces/TravelResult';
+import { getRiskRewardChance } from './RiskReward';
 import {
   getSmoothSailingMessage,
   getLowRewardsMessage,
@@ -23,12 +23,9 @@ import {
   MEDIUM_RISK_SUPPLIES_CONSUMED_MAX,
   HIGH_RISK_SUPPLIES_CONSUMED_MIN,
   HIGH_RISK_SUPPLIES_CONSUMED_MAX,
-} from "./constants";
+} from './constants';
 
-export const travelRoute = (
-  route: SystemRoute,
-  generator: Chance.Chance,
-): TravelResult => {
+export const travelRoute = (route: SystemRoute, generator: Chance.Chance): TravelResult => {
   const { riskChance, rewardChance } = getRiskRewardChance(route.distanceType);
 
   const riskOrReward = generator.floating({ min: 0, max: 1 });
@@ -47,10 +44,7 @@ export const travelRoute = (
   }
 };
 
-function calculateReward(
-  rewardRoll: number,
-  generator: Chance.Chance,
-): TravelResult {
+function calculateReward(rewardRoll: number, generator: Chance.Chance): TravelResult {
   let suppliesConsumed: number;
   if (rewardRoll <= 0.25) {
     suppliesConsumed = generator.integer({
@@ -91,11 +85,7 @@ function calculateReward(
   }
 }
 
-function calculateRisk(
-  riskRoll: number,
-  distance: number,
-  generator: Chance.Chance,
-): TravelResult {
+function calculateRisk(riskRoll: number, distance: number, generator: Chance.Chance): TravelResult {
   let suppliesConsumed: number;
   if (riskRoll <= 0.25) {
     suppliesConsumed = generator.integer({

@@ -1,8 +1,8 @@
-import { Chance } from "chance";
-import { SystemRoute } from "./SystemRoute";
-import { getRiskRewardChance } from "../RiskReward";
-import { Pathfinder } from "../Pathfinder";
-import { SystemType } from "../enums/SystemTypeEnum";
+import { Chance } from 'chance';
+import { SystemRoute } from './SystemRoute';
+import { getRiskRewardChance } from '../RiskReward';
+import { Pathfinder } from '../Pathfinder';
+import { SystemType } from '../enums/SystemTypeEnum';
 
 /**
  * Represents a star system within a network of connected planetary systems
@@ -18,7 +18,7 @@ export default class StarSystem {
   constructor(generator: Chance.Chance = new Chance()) {
     this.name = generator.name();
     this.type = generator.pickone(
-      Object.values(SystemType).filter((v) => typeof v === "number") as SystemType[]
+      Object.values(SystemType).filter((v) => typeof v === 'number') as SystemType[]
     );
     this.routes = [];
     this.distanceToParent = 0;
@@ -37,18 +37,16 @@ export default class StarSystem {
   travelOptions = (): string =>
     this.routes
       .map((systemRoute, index) => {
-        const { riskChance, rewardChance } = getRiskRewardChance(
-          systemRoute.distanceType,
-        );
+        const { riskChance, rewardChance } = getRiskRewardChance(systemRoute.distanceType);
         return `${index}: ${systemRoute.destination.name}, ${
           systemRoute.distance
-        } Lightyears, Chance of Risk: ${riskChance.toLocaleString("en", {
-          style: "percent",
-        })}, Chance of Reward: ${rewardChance.toLocaleString("en", {
-          style: "percent",
+        } Lightyears, Chance of Risk: ${riskChance.toLocaleString('en', {
+          style: 'percent',
+        })}, Chance of Reward: ${rewardChance.toLocaleString('en', {
+          style: 'percent',
         })}`;
       })
-      .join("\n");
+      .join('\n');
 
   /**
    * Builds a mapping of the shortest paths (costs) and parent systems from this system

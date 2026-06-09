@@ -1,12 +1,9 @@
-import Range from "../NumberRange";
-import System from "./StarSystem";
-import { Chance } from "chance";
-import { SystemRoute } from "./SystemRoute";
-import {
-  TRAVEL_DISTANCE_RANGE_MIN,
-  TRAVEL_DISTANCE_RANGE_MAX,
-} from "../constants";
-import { intToDistanceType } from "../enums/DistanceTypeEnum";
+import Range from '../NumberRange';
+import System from './StarSystem';
+import { Chance } from 'chance';
+import { SystemRoute } from './SystemRoute';
+import { TRAVEL_DISTANCE_RANGE_MIN, TRAVEL_DISTANCE_RANGE_MAX } from '../constants';
+import { intToDistanceType } from '../enums/DistanceTypeEnum';
 
 export default class SystemCluster {
   systems: Array<System> = [];

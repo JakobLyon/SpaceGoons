@@ -1,6 +1,6 @@
-import { DistanceType } from "./enums/DistanceTypeEnum";
-import StarSystem from "./domain/StarSystem";
-import { SystemRoute } from "./domain/SystemRoute";
+import { DistanceType } from './enums/DistanceTypeEnum';
+import StarSystem from './domain/StarSystem';
+import { SystemRoute } from './domain/SystemRoute';
 
 export interface ShortestPathResult {
   costs: Record<string, SystemRoute>;
@@ -13,9 +13,7 @@ export class Pathfinder {
    * @param start The starting StarSystem
    * @returns     A Mapping of system names to the shortest route info and parent links
    */
-  static computeShortestPaths = (
-    start: StarSystem,
-  ): ShortestPathResult => {
+  static computeShortestPaths = (start: StarSystem): ShortestPathResult => {
     const costs: Record<string, SystemRoute> = {};
     const parents: Record<string, string | null> = {};
     const processed = new Set<string>();
@@ -64,10 +62,7 @@ export class Pathfinder {
    * @param destination The target system
    * @returns           The next SystemRoute to take, or null if no path exists
    */
-  static getNextShortestRoute(
-    start: StarSystem,
-    destination: StarSystem,
-  ): SystemRoute | null {
+  static getNextShortestRoute(start: StarSystem, destination: StarSystem): SystemRoute | null {
     const { parents } = Pathfinder.computeShortestPaths(start);
 
     if (!parents[destination.name]) {
@@ -80,9 +75,7 @@ export class Pathfinder {
       current = parents[current]!;
     }
 
-    return (
-      start.routes.find((route) => route.destination.name === current) ?? null
-    );
+    return start.routes.find((route) => route.destination.name === current) ?? null;
   }
 
   /**
@@ -90,14 +83,11 @@ export class Pathfinder {
    */
   private static lowestCostRoute(
     costs: Record<string, SystemRoute>,
-    processed: Set<string>,
+    processed: Set<string>
   ): SystemRoute | null {
     let lowest: SystemRoute | null = null;
     for (const [systemName, route] of Object.entries(costs)) {
-      if (
-        !processed.has(systemName) &&
-        (!lowest || route.distance < lowest.distance)
-      ) {
+      if (!processed.has(systemName) && (!lowest || route.distance < lowest.distance)) {
         lowest = route;
       }
     }

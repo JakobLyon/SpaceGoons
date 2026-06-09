@@ -1,4 +1,4 @@
-import { Chance } from "chance";
+import { Chance } from 'chance';
 
 /**
  * Class NumberRange
@@ -15,12 +15,7 @@ export default class NumberRange {
   max: number;
   seed: string;
   private generator: any;
-  constructor(
-    min: number = 0,
-    max: number = 1,
-    seed: string = null,
-    generator: Object = null,
-  ) {
+  constructor(min: number = 0, max: number = 1, seed: string = null, generator: Object = null) {
     this.min = min;
     this.max = max;
     this.seed = seed;

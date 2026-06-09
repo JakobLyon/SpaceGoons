@@ -1,4 +1,4 @@
-import readline from "readline";
+import readline from 'readline';
 
 /**
  * Ask user query and return their input
@@ -15,6 +15,6 @@ export const askQuestion = (query: string): Promise<string> => {
     rl.question(query, (ans) => {
       rl.close();
       resolve(ans);
-    }),
+    })
   );
 };
