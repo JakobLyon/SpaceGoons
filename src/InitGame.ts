@@ -1,7 +1,7 @@
 import { askQuestion } from "./AskQuestion";
 import { Chance } from "chance";
 import Galaxy from "./domain/Galaxy";
-import Player from "./Player";
+import Player from "./domain/Player";
 
 export const init = async () => {
   let seed: string = await askQuestion(

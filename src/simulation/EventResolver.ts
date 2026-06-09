@@ -21,18 +21,16 @@ const SystemTypeRiskModifier: Record<string, number> = {
   [SystemType.ANOMALY]: 1.5,
 }
 
-// Minimal local type to satisfy TypeScript when TravelContext is not imported.
-// Adjust or replace with the proper import if a canonical type exists elsewhere.
 interface TravelContext {
   player: Player
   route: SystemRoute
   system: StarSystem
 }
 
-function resolveTravelEvent({ player, route, system }: TravelContext): SpaceGoonsEvent {
+export const resolveTravelEvent = ({ player, route, system }: TravelContext): SpaceGoonsEvent => {
   const weights = buildWeights(player, route, system);
   const event = rollEvent(weights, EVENT_TABLE)
-  return event
+  return event;
 }
 
 function buildWeights(player: Player, route: SystemRoute, system: StarSystem) {
